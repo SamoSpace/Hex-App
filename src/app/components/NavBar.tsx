@@ -23,7 +23,7 @@ export default function Navbar(){
             </div>
             <div className="bg-zinc-800 rounded-lg p-2 flex-1">
             <ul>
-                <AsideItem href="/note">
+                <AsideItem href="/#">
                 <LibraryIcon/>
                     Historial de Notas
                 </AsideItem>
