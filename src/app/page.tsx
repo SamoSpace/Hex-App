@@ -1,8 +1,6 @@
-import styles from "./page.module.css";
-
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <div className="p-4">
       <main>
         Este sera el Home, ahorita lo hago :D
       </main>

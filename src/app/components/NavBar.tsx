@@ -1,35 +1,35 @@
-import Link from 'next/link'; 
+"use client";
+import { HomeIcon } from "@/app/components/IconsManager"
+import { LibraryIcon } from "@/app/components/IconsManager"
+import { SearchIcon } from "@/app/components/IconsManager"
+import AsideItem from "@/app/components/NavBarItem"
+import NavBarCard from "@/app/components/NavBarCard"
+// import AsideMenuCard from './AsideMenuCard.astro'
 
-const NavBar = () => {
-    const navLinks = [
-        { title: 'Home', path: '/' },
-        { title: 'Redactar', path: '/crearNotas' },
-        { title: 'Metricas', path: '/metricas' },
-        { title: 'Notas', path: '/notas' }
-
-    ];
-
-    return (
-        <div className='fixed top-0 left-0 w-full bg-[#0A0A0A]/30 shadow-md z-50 backdrop-blur-sm'
-        
-        >
-        <div className="flex flex-row p-4 font-geistS">
-            <ul className="flex text-[#888] gap-4 flex-grow">
-                {navLinks.map((navLink) => (
-                    <li key={navLink.path}>
-                        <Link href={navLink.path} className="hover:text-white transition duration-600">
-                            {navLink.title}
-                        </Link>
-                    </li>
-                ))}
+export default function Navbar(){
+    return(
+        <nav className="flex flex-col flex-1 gap-2 ">
+            <div className="bg-zinc-800 rounded-lg p-4">
+                <ul>
+                    <AsideItem href="/">
+                    <HomeIcon/>
+                        Home
+                    </AsideItem>
+                    <AsideItem href="/crearNotas">
+                    <SearchIcon/>
+                         Crear Notas
+                    </AsideItem>
+                </ul>
+            </div>
+            <div className="bg-zinc-800 rounded-lg p-2 flex-1">
+            <ul>
+                <AsideItem href="/note">
+                <LibraryIcon/>
+                    Historial de Notas
+                </AsideItem>
             </ul>
-
-            <Link href='/' className='flex gap-2 text-white font-bold text-2xl cursor-pointer'>
-                    Hextello
-            </Link>
-        </div>
-        </div>
-    );
-};
-
-export default NavBar;
+            <NavBarCard/>
+            </div>
+        </nav>
+    )
+}

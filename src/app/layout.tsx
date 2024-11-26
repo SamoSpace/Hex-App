@@ -14,11 +14,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="p-6 mt-6">
-        <NavBar/>
-        <main className="p-4">
-          {children}
-        </main>
+      <body className="min-h-screen p-2">
+        <div id="main-layout" className="relative h-screen p-2 gap-2">
+          <aside className="[grid-area:aside] flex flex-col overflow-auto">
+            <NavBar/>
+          </aside>
+          <main className="[grid-area:notas] rounded-lg bg-zinc-800 overflow-y-auto flex-1 text-white">
+            {children}
+          </main>
+          <footer className="[grid-area:footer]">
+            Footer
+          </footer>
+        </div>
       </body>
     </html>
   );

@@ -11,6 +11,7 @@ interface NoteData {
   signature: string;
   sources?: string;
   published: boolean; // Campo inicial para estado de publicación
+  priority: "alta" | "media" | "baja"; // Nueva propiedad para prioridad
 }
 
 const NoteForm: React.FC = () => {
@@ -22,6 +23,7 @@ const NoteForm: React.FC = () => {
     signature: "",
     sources: "",
     published: false, // Estado inicial
+    priority: "media", // Valor por defecto para la prioridad
   });
 
   const wordLimits = {
@@ -35,7 +37,7 @@ const NoteForm: React.FC = () => {
   };
 
   const saveToFirebase = async () => {
-    const { hashtag, title, noteType, content, signature } = noteData;
+    const { hashtag, title, noteType, content, signature, priority } = noteData;
 
     // Validaciones
     if (!signature) {
@@ -69,6 +71,7 @@ const NoteForm: React.FC = () => {
         signature: "",
         sources: "",
         published: false,
+        priority: "media", // Restablecemos la prioridad al valor por defecto
       }); // Reiniciar formulario
     } catch (error) {
       console.error("Error al guardar nota en Firebase:", error);
@@ -77,61 +80,76 @@ const NoteForm: React.FC = () => {
   };
 
   return (
-    <form className="space-y-4 p-4">
-      <input
-        type="text"
-        placeholder="Hashtag (sin #)"
-        className="border rounded p-2 w-full"
-        value={noteData.hashtag}
-        onChange={(e) => handleInputChange("hashtag", e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Título (máximo 10 palabras)"
-        className="border rounded p-2 w-full"
-        value={noteData.title}
-        onChange={(e) => handleInputChange("title", e.target.value)}
-      />
-      <select
-        className="border rounded p-2 w-full"
-        value={noteData.noteType}
-        onChange={(e) =>
-          handleInputChange("noteType", e.target.value as NoteData["noteType"])
-        }
-      >
-        <option value="quick">Nota Rápida</option>
-        <option value="lore">Nota de Lore</option>
-        <option value="leaks">Nota de Leaks</option>
-      </select>
-      <textarea
-        placeholder={`Contenido (máximo ${wordLimits[noteData.noteType]} palabras)`}
-        className="border rounded p-2 w-full"
-        value={noteData.content}
-        onChange={(e) => handleInputChange("content", e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Firma (obligatoria)"
-        className="border rounded p-2 w-full"
-        value={noteData.signature}
-        onChange={(e) => handleInputChange("signature", e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Fuentes (opcional)"
-        className="border rounded p-2 w-full"
-        value={noteData.sources}
-        onChange={(e) => handleInputChange("sources", e.target.value)}
-      />
-      <button
-        type="button"
-        className="bg-blue-500 text-white p-2 rounded"
-        onClick={saveToFirebase}
-      >
-        Guardar Nota
-      </button>
-    </form>
+    <div className="p-4">
+      <h2 className="font-bold text-2xl text-white">Nueva Nota: </h2>
+      <form className="space-y-4 p-4 flex flex-col justify-center text-black">
+        <input
+          type="text"
+          placeholder="Hashtag (sin #)"
+          className="border rounded p-2 w-full"
+          value={noteData.hashtag}
+          onChange={(e) => handleInputChange("hashtag", e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Título (máximo 10 palabras)"
+          className="border rounded p-2 w-full"
+          value={noteData.title}
+          onChange={(e) => handleInputChange("title", e.target.value)}
+        />
+        <select
+          className="border rounded p-2 w-full text-black"
+          value={noteData.noteType}
+          onChange={(e) =>
+            handleInputChange("noteType", e.target.value as NoteData["noteType"])
+          }
+        >
+          <option value="quick">Nota Rápida</option>
+          <option value="lore">Nota de Lore</option>
+          <option value="leaks">Nota de Leaks</option>
+        </select>
+        <textarea
+          placeholder={`Contenido (máximo ${wordLimits[noteData.noteType]} palabras)`}
+          className="border rounded p-2 w-full"
+          value={noteData.content}
+          onChange={(e) => handleInputChange("content", e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Firma (obligatoria)"
+          className="border rounded p-2 w-full"
+          value={noteData.signature}
+          onChange={(e) => handleInputChange("signature", e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Fuentes (opcional)"
+          className="border rounded p-2 w-full"
+          value={noteData.sources}
+          onChange={(e) => handleInputChange("sources", e.target.value)}
+        />
+        
+        {/* Select de prioridad */}
+        <select
+          className="border rounded p-2 w-full"
+          value={noteData.priority}
+          onChange={(e) => handleInputChange("priority", e.target.value as NoteData["priority"])}
+        >
+          <option value="alta">Alta</option>
+          <option value="media">Media</option>
+          <option value="baja">Baja</option>
+        </select>
+
+        <button
+          type="button"
+          className="bg-[var(--titles)] text-black p-2 rounded"
+          onClick={saveToFirebase}
+        >
+          Guardar Nota
+        </button>
+      </form>
+    </div>
   );
 };
 
